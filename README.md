@@ -7,7 +7,7 @@
 Rahul et al formalized emergent semantics into a network (IEEE International Conference on Semantic Computing 2011). This mini-project aims to evaluate the feasibility of using emergent semantics formalized as a graph to create the parameters of RAG bias.
 
 ## Some Analysis
-### Can CLIP be used to bias RAG?
+### Can CLIP be used to bias for RAG?
 - A | CLIP is a generalized framework to contrast images and text. It still does not do a very good job at calculating the emergent semantic differences between image 1 and image 2. Here is an example of the embedding space on streamlit:
   <img width="2189" height="1304" alt="image" src="https://github.com/user-attachments/assets/af296564-0145-46db-af8d-dfa928438c80" />
   You can see here that the distance between the images of rivers is the same as it is to the building. Why? Most people would place these two closer to each other then the other two buildings. This is an example of (a seemingly vision problem but actually) emergent semantic.
