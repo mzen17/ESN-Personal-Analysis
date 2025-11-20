@@ -1,8 +1,8 @@
 # Personal ESN Analysis
 <img width="2791" height="1884" alt="image" src="https://github.com/user-attachments/assets/c1d4d688-e513-4c8a-98ff-53491461e4df" />
 
-## Can we use ESNs as our bias parameter RAGs?
-**Emergent semantics** (Santini et al,  The International Federation for Information Processing 1999) are a form of data that occurs when a user looks at a piece of media. What does the user feel? It turns out, these form of semantics is highly dependent on the personna of the end user. 
+## Can we use ESNs as our bias parameter for RAGs?
+**Emergent semantics** (Santini et al,  The International Federation for Information Processing 1999) are a form of data that occurs when a user looks at a piece of media. What does the user feel? Do they feel its a warm image? Do they think its a pretty image? It turns out, these form of semantics is highly dependent on the personna of the end user. 
 
 Rahul et al formalized emergent semantics into a network (IEEE International Conference on Semantic Computing 2011). This mini-project aims to evaluate the feasibility of using emergent semantics formalized as a graph to create the parameters of RAG bias.
 
