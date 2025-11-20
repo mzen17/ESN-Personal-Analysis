@@ -220,7 +220,7 @@
                 <div class="main-layout">
                 <div class="left-panel">
                     <div class="current-image-container">
-                        <img src="/src/lib/workdata/{currentImage}" alt={currentImage} class="current-image" />
+                        <img src="/workdata/{currentImage}" alt={currentImage} class="current-image" />
                         <p class="image-label"><strong>{getAnonymousName(currentImage)}</strong></p>
                     </div>
                 </div>                    <div class="right-panel">
@@ -237,7 +237,7 @@
                                         tabindex="0"
                                         on:keypress={(e) => e.key === 'Enter' && toggleImageSelection(image)}
                                     >
-                                        <img src="/src/lib/workdata/{image}" alt={image} class="grid-image" />
+                                        <img src="/workdata/{image}" alt={image} class="grid-image" />
                                         <p class="grid-image-label">{getAnonymousName(image)}</p>
                                         {#if selectedImages.has(image)}
                                             <div class="selected-badge">✓</div>
