@@ -1,1 +1,1 @@
-cp surveyapp/lib/workdata .
+cp -r surveyapp/src/lib/workdata .
