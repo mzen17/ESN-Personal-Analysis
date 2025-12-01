@@ -271,9 +271,9 @@
                     {#each Array.from(selectedImages) as image}
                         <div class="reason-item">
                             <div class="reason-images">
-                                <img src="/src/lib/workdata/{currentImage}" alt={currentImage} class="reason-thumb" />
+                                <img src="/workdata/{currentImage}" alt={currentImage} class="reason-thumb" />
                                 <span class="arrow">→</span>
-                                <img src="/src/lib/workdata/{image}" alt={image} class="reason-thumb" />
+                                <img src="/workdata/{image}" alt={image} class="reason-thumb" />
                             </div>
                             <div class="reason-input-group">
                                 <label for="reason-{image}">{getAnonymousName(image)}</label>
