@@ -75,8 +75,78 @@ def get_image_crop_base64(image_path, crop_size=80):
 def create_plotly_graph(G, image_dir="workdata"):
     """Create an interactive Plotly visualization of the graph."""
     
-    # Get positions using spring layout
-    pos = nx.spring_layout(G, k=2, iterations=50, seed=42)
+    import math
+    
+    # Ensure image_dir is a Path object
+    image_dir = Path(image_dir)
+    
+    # Detect connected components (islands)
+    components = list(nx.connected_components(G))
+    
+    # If multiple components, layout each separately and position them in a grid
+    if len(components) > 1:
+        pos = {}
+        
+        # Sort components by size (largest first)
+        components = sorted(components, key=len, reverse=True)
+        
+        # Calculate grid layout for components
+        n_components = len(components)
+        grid_cols = math.ceil(math.sqrt(n_components))
+        grid_rows = math.ceil(n_components / grid_cols)
+        
+        # Calculate scale factor for each component based on its size
+        # Larger components get more space
+        component_scales = []
+        for component in components:
+            n_nodes = len(component)
+            # Much larger scale for better node separation
+            scale = max(3.0, math.sqrt(n_nodes) * 2.0)
+            component_scales.append(scale)
+        
+        # Dynamic spacing based on largest component
+        max_scale = max(component_scales)
+        spacing = max_scale * 1.8  # Reduced spacing between islands
+        
+        for idx, component in enumerate(components):
+            # Create subgraph for this component
+            subgraph = G.subgraph(component)
+            n_nodes = len(component)
+            
+            # Much higher k value = more spacing between nodes
+            # k is the optimal distance between nodes
+            k_value = max(5.0, math.sqrt(n_nodes) * 1.5)
+            sub_pos = nx.spring_layout(
+                subgraph, 
+                k=k_value, 
+                iterations=100, 
+                seed=42,
+                scale=component_scales[idx]
+            )
+            
+            # Calculate grid position for this component
+            row = idx // grid_cols
+            col = idx % grid_cols
+            
+            # Offset to position this component in the grid
+            offset_x = col * spacing
+            offset_y = row * spacing
+            
+            # Add positions with offset
+            for node, (x, y) in sub_pos.items():
+                pos[node] = (x + offset_x, y + offset_y)
+    else:
+        # Single component - use enhanced spring layout with better spacing
+        n_nodes = G.number_of_nodes()
+        k_value = max(5.0, math.sqrt(n_nodes) * 1.5)
+        scale = max(3.0, math.sqrt(n_nodes) * 2.0)
+        pos = nx.spring_layout(
+            G, 
+            k=k_value, 
+            iterations=100, 
+            seed=42,
+            scale=scale
+        )
     
     # Create edge traces
     edge_traces = []
@@ -218,13 +288,13 @@ st.sidebar.header("Settings")
 
 tsv_file = st.sidebar.text_input(
     "TSV File Path",
-    value="data/mike.tsv",
+    value="data/out1.tsv",
     help="Path to the TSV file with graph data"
 )
 
 image_dir = st.sidebar.text_input(
     "Image Directory",
-    value="imagedata",
+    value="workdata",
     help="Path to the directory containing images"
 )
 
@@ -354,4 +424,4 @@ else:
 
 # Footer
 st.sidebar.markdown("---")
-st.sidebar.markdown("Built with ❤️ using Streamlit and NetworkX")
+st.sidebar.markdown("Built using Streamlit and NetworkX")
