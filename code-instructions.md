@@ -32,9 +32,9 @@ The survey app needs a JS environment. Run ```npm install```, then ```npm run de
 Without a JS environment, it is much easier to just go to [https://superblob.mzen.dev/sv/](https://superblob.mzen.dev/sv/).
 
 ### Running the LLM 
-It is easier to use [https://superblob.mzen.dev](https://superblob.mzen.dev) to run the LLM, as this is bootstrapped to a local Qwen3 server and is free to use with the password.
+It is easier to use [https://superblob.mzen.dev](https://superblob.mzen.dev) to run the LLM, as this is bootstrapped to a local Qwen3 server and is free to use, subject to reasonable rate limits.
 
-Running gemini-run.py is significantly harder, since it runs from local PCs. However, one can go to the superblob website and test the prompts manually to see if they generate similar output.
+Running gemini-run.py locally is significantly harder, since it runs using the local qwen server. However, one can go to the superblob website and test the prompts manually to see if they generate similar output.
 
 All responses are saved and cached to data/gemini, even though the system uses Qwen3. 
 
