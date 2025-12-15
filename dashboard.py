@@ -487,7 +487,6 @@ with tab3:
 
 # Tab 4: LMM + RAG Chat
 with tab4:
-    # Initialize OpenAI client pointing to local server
     client = OpenAI(
         base_url="http://10.42.0.11:18181/v1",
         api_key="not-needed"
@@ -503,7 +502,6 @@ with tab4:
     st.markdown("Query graphs with natural language and get LMM responses with image context")
     st.info("🖥️ Using local model: NexaAI/Qwen3-VL-4B-Instruct-GGUF at http://10.42.0.11:18181")
     
-    # Graph selection
     st.subheader("Select Graphs to Query")
     col1, col2 = st.columns(2)
     
@@ -524,7 +522,6 @@ with tab4:
         key="chat_prompt"
     )
     
-    # Send button
     if st.button("Send", type="primary", disabled=not user_prompt):
         if not user_prompt:
             st.error("Please enter a prompt")
@@ -539,7 +536,6 @@ with tab4:
                     graph1 = entity_collapse(loadgraph(graph1_path))
                     graph2 = entity_collapse(loadgraph(graph2_path))
                 
-                # Create three columns for responses
                 col1, col2, col3 = st.columns(3)
                 
                 # Query Graph 1
@@ -585,7 +581,6 @@ with tab4:
                                 st.write(response1.choices[0].message.content)
                                 
                                 st.markdown(f"**Retrieved Images ({len(image_files1)}):**")
-                                # Show thumbnails
                                 img_cols = st.columns(min(len(image_files1), 4))
                                 for idx, img_file in enumerate(image_files1[:4]):
                                     img_path = Path("workdata") / img_file
@@ -611,7 +606,6 @@ with tab4:
                             if image_files2:
                                 rag_prompt = f"You are shown images related to '{user_prompt}'. Answer the following using the provided images: {user_prompt}"
                                 
-                                # Create message with base64-encoded images
                                 messages = [
                                     {
                                         "role": "user",
@@ -642,7 +636,6 @@ with tab4:
                                 st.write(response2.choices[0].message.content)
                                 
                                 st.markdown(f"**Retrieved Images ({len(image_files2)}):**")
-                                # Show thumbnails
                                 img_cols = st.columns(min(len(image_files2), 4))
                                 for idx, img_file in enumerate(image_files2[:4]):
                                     img_path = Path("workdata") / img_file
@@ -698,18 +691,15 @@ with tab5:
     st.header("📊 Stats View")
     st.markdown("Comparison matrices showing Jaccard distances and graph differences")
 
-    # Function definitions from jaccard-matrix.py
     def jaccard_matrix(graph_paths):
         """Generate Jaccard distance matrix for multiple graphs."""
         graphs = [loadgraphset(path) for path in graph_paths]
         n = len(graphs)
         matrix = [[0.0 for _ in range(n)] for _ in range(n)]
         
-        # Set diagonal to 1.0 (jaccard(A,A) is always 1)
         for i in range(n):
             matrix[i][i] = 1.0
         
-        # Only compute upper triangle (excluding diagonal)
         for i in range(n):
             for j in range(i + 1, n):
                 matrix[i][j] = jcd(graphs[i], graphs[j])
@@ -984,7 +974,7 @@ with tab5:
                 selected_edge_labels.append(edge_label)
     
     if not selected_edge_labels:
-        st.warning("⚠️ Please select at least one edge label to generate the similarity matrix.")
+        st.warning("Please select at least one edge label to generate the similarity matrix.")
         st.stop()
     
     def gemini_rerank_matrix_multi(datasets, edge_labels):

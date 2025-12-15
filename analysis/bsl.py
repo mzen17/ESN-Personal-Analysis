@@ -111,7 +111,7 @@ def generate_graph():
                 # Compute cosine similarity
                 similarity = util.cos_sim(embeddings[i], embeddings[j]).item()
                 
-                if similarity > 0.75:
+                if similarity > 0.80:
                     # Use AI to generate relationship label
                     print(f"    Generating label for {Path(img1_path).name} <-> {Path(img2_path).name}...")
                     label = get_relationship_label(img1_path, img2_path)

@@ -1,5 +1,23 @@
 # this generates a jaccard distance matrix of u
 
+def jaccard_matrix_struct(graph_paths):
+    """Generate Jaccard distance matrix for multiple graphs."""
+    graphs = [loadgraph(path) for path in graph_paths]
+    n = len(graphs)
+    matrix = [[0.0 for _ in range(n)] for _ in range(n)]
+    
+    for i in range(n):
+        matrix[i][i] = 1.0
+    
+    for i in range(n):
+        for j in range(i + 1, n):
+            matrix[i][j] = jcd(graphs[i], graphs[j])
+            # Mirror to lower triangle
+            matrix[j][i] = matrix[i][j]
+    
+    return matrix
+
+
 def loadgraph(path):
     """This takes a path parameter to a TSV
     The TSV is loaded, then parsed. The graph is stored as [{col1, col2}, {col1, col2}...]"""

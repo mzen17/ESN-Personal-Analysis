@@ -147,7 +147,7 @@ Dist = AD[1, 1, 2], BD [1, 1, 2], ABD = [9, 10, 11, 8, …] \
 Ranked dist = 11, 10, 10, … 2, 1, 1, 1, 1. Assign each in order 1-15 respectively. The average rank for ABD is 4 and 6, giving us an R of 1. Notice: closer to 1 implies complete separation, closer to 0 implies no separation.
 
 
-To determine the significance of the R statistic, we use a permutation test with n=[4,4], R. The following thresholds are considered strong:
+To determine the significance of the R statistic, we use a permutation test with n=[5,5] (note the mismatch; these thresholds are statistically significant when survey size is larger), R. The following thresholds are considered strong:
 - 0.01 p-value needs $R>0.9$ (extremely strong separation)
 - 0.05 p-value needs $ R>0.7$ (strong separation)
 - 0.1 p-value needs $R>0.5$ (slight separation)
@@ -210,7 +210,7 @@ Overall, we found a significant difference between users familiar with Iowa City
 == RQ2: Can we build applications that can utilize the emergent semantics?
 #figure(
   image("images/graphdiff.png"),
-  caption:[Jaccard index heatmap for returned images of familiar (F) to unfamiliar (U) with mean. R=0.792. The lower left 4x4 is more green than the other regions, such as the CROSS region (upper left) being red, and the upper right 4x4 being orange. Visually, $F$ and $G$ do appear to be more clustered],
+  caption:[Jaccard index heatmap for returned images of familiar (F) to unfamiliar (U) with mean. R=0.792. The lower left 4x4 is more green than the other regions, such as the CROSS region (upper left) being red, and the upper right 4x4 being orange. Visually, $F$ and $G$ do appear to be more clustered.],
 )
 
 
@@ -237,7 +237,7 @@ It is also interesting to note that areas that were originally above a 0.33 were
 
 #figure(
   image("images/f2u1.png"),
-  caption:[Image search with F2 behaving like U1 by being searched "tree", Notice how F1 and F2 are extremely different; F1 only focuses on the two trees that are illuminated in the night. Meanwhile, F2 returns a large corpus of documents. Interestingly enough, F2's labels tend to be more generic, which could possibly explain this behavior.],
+  caption:[Image search with F2 behaving like U1 by being searched "tree" where F2 doesn't have a good match for the term "tree". Notice how F1 and F2 are extremely different; F1 only focuses on the two trees that are illuminated in the night. Meanwhile, F2 returns a large corpus of documents like the unfamiliar graphs. This is likely because F2's labels tend to be more generic.],
 )
 
 #figure(
@@ -320,8 +320,10 @@ Project Site: https://superblob.mzen.dev/
 
 Here, we compare CLIP's ability to capture emergent semantics. We generate a graph with CLIP and create the edges as follows:
 
-1. Start with image I of the image set.
-2. Search all other images that have CLIP score >0.8 similarity.
+1. Use CLIP to compute all the image embeddings of the dataset.
+2. For each image, compute CS($I_i$, I), comparing the image with all the other images.
+3. Filter all images whose cosine similarity > 0.8.
+4. Create an edge between those images.
 
 We evaluate how similar this generated system is to any of the user-sampled graphs.
 
